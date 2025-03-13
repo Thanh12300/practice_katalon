@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalVariableEntities>
+   <description></description>
+   <name>default</name>
+   <tag></tag>
+   <defaultProfile>true</defaultProfile>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'https://demo.guru99.com/test/web-table-element.php#'</initValue>
+      <name>tableURL</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'https://utkarsh-react-table-demo.netlify.app/'</initValue>
+      <name>reactTable</name>
+   </GlobalVariableEntity>
+</GlobalVariableEntities>
