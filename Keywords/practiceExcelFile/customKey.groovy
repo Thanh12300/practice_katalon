@@ -21,13 +21,13 @@ import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 import internal.GlobalVariable
 
 public class customKey {
-	
+
 	@Keyword
 	def countValueOfColumn() {
 		TestData data = findTestData('Test_Data')
 		int numberOfRow = data.getRowNumbers()
 		println 'number of row: '+ numberOfRow
-		
+
 		ArrayList<String> listLastName = new ArrayList()
 		ArrayList<String> listFirstName = new ArrayList()
 		ArrayList<String> listAge = new ArrayList()
@@ -35,7 +35,7 @@ public class customKey {
 			String valueLastName = data.getObjectValue('Last Name', i)
 			String valueFirstName = data.getObjectValue('First Name', i)
 			String valueAge = data.getObjectValue('Age', i)
-			
+
 			if(valueLastName != null && !valueLastName.trim().isEmpty()) {
 				listLastName.add(valueLastName)
 			}

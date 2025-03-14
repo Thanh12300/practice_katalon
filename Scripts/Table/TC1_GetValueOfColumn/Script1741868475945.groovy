@@ -22,8 +22,8 @@ import org.openqa.selenium.Keys as Keys
 import practiceTable.customKey
 
 WebUI.openBrowser('')
-WebUI.navigateToUrl(GlobalVariable.tableURL)
-CustomKeywords.'practiceTable.customKey.getValueOfColumnName'(findTestObject('Object Repository/Table/tb_name'), 'Group1')
+WebUI.navigateToUrl(GlobalVariable.reactTable)
+CustomKeywords.'practiceTable.customKey.getValueOfColumnName'(findTestObject('Object Repository/Table/tb_name'), 'First Name')
 
 
 //int i = CustomKeywords.'practiceTable.customKey.getIndexOfColumnName'(findTestObject, null)
