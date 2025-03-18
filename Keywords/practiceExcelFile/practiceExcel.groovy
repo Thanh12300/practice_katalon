@@ -20,35 +20,34 @@ import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 
 import internal.GlobalVariable
 
-public class customKey {
-
+public class practiceExcel {
+	//Excel
 	@Keyword
 	def countValueOfColumn() {
 		TestData data = findTestData('Test_Data')
 		int numberOfRow = data.getRowNumbers()
 		println 'number of row: '+ numberOfRow
 
-		ArrayList<String> listLastName = new ArrayList()
-		ArrayList<String> listFirstName = new ArrayList()
-		ArrayList<String> listAge = new ArrayList()
+		ArrayList<String> listId = new ArrayList()
+		ArrayList<String> listName = new ArrayList()
+		ArrayList<String> listPassword = new ArrayList()
 		for(int i = 1; i <= numberOfRow; i++) {
-			String valueLastName = data.getObjectValue('Last Name', i)
-			String valueFirstName = data.getObjectValue('First Name', i)
-			String valueAge = data.getObjectValue('Age', i)
+			String valueId = data.getObjectValue('Id', i)
+			String valueName = data.getObjectValue('Name', i)
+			String valuePassword = data.getObjectValue('Password', i)
 
-			if(valueLastName != null && !valueLastName.trim().isEmpty()) {
-				listLastName.add(valueLastName)
+			if(valueId != null && !valueId.trim().isEmpty()) {
+				listId.add(valueName)
 			}
-			if(valueFirstName != null && !valueFirstName.trim().isEmpty()) {
-				listFirstName.add(valueFirstName)
+			if(valueName != null && !valueName.trim().isEmpty()) {
+				listName.add(valueName)
 			}
-			if(valueAge != null && !valueAge.trim().isEmpty()) {
-				listAge.add(valueAge)
+			if(valuePassword != null && !valuePassword.trim().isEmpty()) {
+				listPassword.add(valuePassword)
 			}
 		}
-		println('Count of LastName values: ' + listLastName.size())
-		println('Count of FirstName values: ' + listFirstName.size())
-		println('Count of Age values: ' + listAge.size())
+		println('Count of LastName values: ' + listId.size())
+		println('Count of FirstName values: ' + listName.size())
+		println('Count of Age values: ' + listPassword.size())
 	}
 }
-

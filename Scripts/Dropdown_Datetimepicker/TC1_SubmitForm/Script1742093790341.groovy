@@ -17,8 +17,20 @@ import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 import internal.GlobalVariable as GlobalVariable
 import org.openqa.selenium.Keys as Keys
 
-import practiceTable.customKey
+import practiceDropdownDateTimePicker.customKey
 
 WebUI.openBrowser('')
-WebUI.navigateToUrl(GlobalVariable.reactTable)
-CustomKeywords.'practiceTable.customKey.getValueOfRow'(findTestObject('Object Repository/Table/tb_name'))
+WebUI.navigateToUrl(GlobalVariable.demoqaURL)
+CustomKeywords.'practiceDropdownDateTimePicker.customKey.submitForm'(
+	'John',                 
+	'Doe',                  
+	'john.doe@example.com', 
+	'Male',                 
+	'0123456789',           
+	'17 Apr 2025',          
+	'Mathematics',          
+	'C:\\Users\\ZBOOK\\Downloads\\images.png',
+	'123 Main Street',      
+	'NCR',           
+	'Delhi'           )
+

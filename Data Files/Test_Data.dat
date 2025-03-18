@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DataFileEntity>
    <description></description>
-   <name>Test_Data</name>
+   <name>test_data</name>
    <tag></tag>
    <connectionProperties/>
    <containsHeaders>true</containsHeaders>
    <csvSeperator></csvSeperator>
-   <dataFileGUID>265f29d9-f337-4b0b-8e64-b031cf47b72c</dataFileGUID>
-   <dataSourceUrl>../sample_data.xlsx</dataSourceUrl>
+   <dataFileGUID>a981f930-207c-44f7-a2d3-0863f54aed6c</dataFileGUID>
+   <dataSourceUrl>../../Downloads/test_data.xlsx</dataSourceUrl>
    <driver>ExcelFile</driver>
    <isInternalPath>true</isInternalPath>
    <query></query>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>TC1_ReadDataCSV</name>
+   <tag></tag>
+   <comment></comment>
+   <recordOption>OTHER</recordOption>
+   <testCaseGuid>8053f4eb-3893-42dd-9b8c-ee6b5c4fa627</testCaseGuid>
+</TestCaseEntity>

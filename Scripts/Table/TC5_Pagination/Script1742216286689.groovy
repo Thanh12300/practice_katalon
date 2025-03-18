@@ -20,5 +20,6 @@ import org.openqa.selenium.Keys as Keys
 import practiceTable.customKey
 
 WebUI.openBrowser('')
-WebUI.navigateToUrl(GlobalVariable.reactTable)
-CustomKeywords.'practiceTable.customKey.getValueOfRow'(findTestObject('Object Repository/Table/tb_name'))
+WebUI.navigateToUrl('https://utkarsh-react-table-demo.netlify.app/pagination')
+TestObject tableObject = findTestObject('Object Repository/Table/tb_name')
+CustomKeywords.'practiceTable.customKey.checkPagination'(tableObject, 50)
