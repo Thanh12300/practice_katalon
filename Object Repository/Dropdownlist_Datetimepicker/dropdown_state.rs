@@ -6,12 +6,11 @@
    <elementGuidId>bf802e00-8dd9-4c25-b1a5-93f419140e6d</elementGuidId>
    <selectorCollection>
       <entry>
-         <key>BASIC</key>
-         <value></value>
+         <key>XPATH</key>
+         <value>//div[@id='state']</value>
       </entry>
       <entry>
-         <key>XPATH</key>
-         <value>//div[@id='state']//div[@class=' css-1hwfws3']</value>
+         <key>BASIC</key>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

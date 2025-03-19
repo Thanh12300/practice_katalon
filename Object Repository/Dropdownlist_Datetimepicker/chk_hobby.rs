@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>dropdown_city</name>
+   <name>chk_hobby</name>
    <tag></tag>
-   <elementGuidId>4af4df4e-5710-498f-9872-efe802af320f</elementGuidId>
+   <elementGuidId>9fe1036e-f122-4915-b78b-9b53b2592fb6</elementGuidId>
    <selectorCollection>
       <entry>
          <key>XPATH</key>
-         <value>//div[@id='city']</value>
+         <value>//label[contains(text(),'${hobby}')]&#xd;
+</value>
       </entry>
       <entry>
          <key>BASIC</key>
+         <value></value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

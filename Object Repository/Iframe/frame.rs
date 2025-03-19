@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>dropdown_city</name>
+   <name>frame</name>
    <tag></tag>
-   <elementGuidId>4af4df4e-5710-498f-9872-efe802af320f</elementGuidId>
+   <elementGuidId>af93e062-af9c-4d25-ae79-5f811dbffacf</elementGuidId>
    <selectorCollection>
       <entry>
          <key>XPATH</key>
-         <value>//div[@id='city']</value>
+         <value>//iframe[@id='frame1']</value>
       </entry>
       <entry>
          <key>BASIC</key>
+         <value></value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

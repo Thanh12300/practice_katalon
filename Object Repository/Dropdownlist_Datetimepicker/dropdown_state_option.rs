@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>dropdown_city</name>
+   <name>dropdown_state_option</name>
    <tag></tag>
-   <elementGuidId>4af4df4e-5710-498f-9872-efe802af320f</elementGuidId>
+   <elementGuidId>84aab828-36c6-4efa-8fd7-4fb0c3d008f2</elementGuidId>
    <selectorCollection>
       <entry>
          <key>XPATH</key>
-         <value>//div[@id='city']</value>
+         <value>//div[contains(@class, 'css-yt9ioa-option') and text()= '${state}']</value>
       </entry>
       <entry>
          <key>BASIC</key>
+         <value></value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

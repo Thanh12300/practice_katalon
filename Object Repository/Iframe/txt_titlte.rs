@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebElementEntity>
    <description></description>
-   <name>dropdown_city</name>
+   <name>txt_titlte</name>
    <tag></tag>
-   <elementGuidId>4af4df4e-5710-498f-9872-efe802af320f</elementGuidId>
+   <elementGuidId>1ce95761-f7f5-4f88-88f0-0ae15055b6be</elementGuidId>
    <selectorCollection>
       <entry>
          <key>XPATH</key>
-         <value>//div[@id='city']</value>
+         <value></value>
       </entry>
       <entry>
          <key>BASIC</key>
+         <value></value>
       </entry>
    </selectorCollection>
    <selectorMethod>XPATH</selectorMethod>

@@ -17,21 +17,6 @@ import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 import internal.GlobalVariable as GlobalVariable
 import org.openqa.selenium.Keys as Keys
 
-import practiceDropdownDateTimePicker.customKey
+import practiceIFrame.customKey
 
-WebUI.openBrowser('')
-WebUI.navigateToUrl(GlobalVariable.demoqaURL)
-
-CustomKeywords.'practiceDropdownDateTimePicker.customKey.submitForm'(
-	'Tran', 
-	'Minh', 
-	'minh@gmail.com', 
-	'Female', 
-	'0123456789',
-	'Maths', 
-	'C:\\Users\\ZBOOK\\Downloads\\images.png',
-	'123, Test Street, HCM City', 
-	'NCR', 
-	'Delhi',
-	['Reading', 'Music'])
-
+CustomKeywords.'practiceIFrame.customKey.checkNestedIframe'()
