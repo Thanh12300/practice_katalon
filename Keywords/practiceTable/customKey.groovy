@@ -32,13 +32,13 @@ public class customKey {
 
 	@Keyword
 	def getIndexOfColumnName(TestObject table, String nameCol ) {
-		KeywordUtil.logInfo("table name: " + table)
 		ArrayList<String> headers = getHeaderOfTable(table)
-		if(headers.contains(nameCol)) {
-			return headers.indexOf(nameCol) + 1
+		for(String header in headers) {
+			if(header.contains(nameCol)) {
+				return headers.indexOf(header) + 1;
+			}
 		}
 	}
-
 
 	@Keyword
 	def getValueOfColumnName(TestObject object, String nameCol) {
@@ -58,78 +58,101 @@ public class customKey {
 
 	@Keyword
 	def getValueOfRow(TestObject object) {
-	    ArrayList<String> headers = getHeaderOfTable(object)
-	    WebElement table = WebUI.findWebElement(object)
-	
-	    List<WebElement> rows = table.findElements(By.xpath(".//thead//th//ancestor::thead//following::tbody//tr"))
-	    
-	    List<Map<String, String>> tableData = []
-	
-	    for (int rowIndex = 0; rowIndex < rows.size(); rowIndex++) {
-	        List<WebElement> rowCells = rows[rowIndex].findElements(By.tagName("td"))
-	        Map<String, String> rowValue = new LinkedHashMap<>()
-	
-	        for (int i = 0; i < headers.size(); i++) {
-	            String header = headers.get(i)
-	            String value = rowCells[i].getText().trim()
-	            rowValue.put(header, value)
-	        }
-	        
-	        tableData.add(rowValue)
-	        //println "Row ${rowIndex + 1}: " + rowValue
-	    }
-	
-	    return tableData
+		ArrayList<String> headers = getHeaderOfTable(object)
+		WebElement table = WebUI.findWebElement(object)
+
+		List<WebElement> rows = table.findElements(By.xpath(".//thead//th//ancestor::thead//following::tbody//tr"))
+
+		List<Map<String, String>> tableData = []
+
+		for (int rowIndex = 0; rowIndex < rows.size(); rowIndex++) {
+			List<WebElement> rowCells = rows[rowIndex].findElements(By.tagName("td"))
+			Map<String, String> rowValue = new LinkedHashMap<>()
+
+			for (int i = 0; i < headers.size(); i++) {
+				String header = headers.get(i)
+				String value = rowCells[i].getText().trim()
+				rowValue.put(header, value)
+			}
+
+			tableData.add(rowValue)
+			//println "Row ${rowIndex + 1}: " + rowValue
+		}
+
+		return tableData
 	}
 
 	@Keyword
-	def checkSort(TestObject object, String excelFile, String colName, String order) {
+	def checkSortAscending(TestObject object, String excelFile, String colName, String order) {
 		WebElement table = WebUI.findWebElement(object)
-		WebElement element = table.findElement(By.xpath(".//th[@role='columnheader' and contains(text(), '"+ colName + "')]"))
-
-		element.click()
+		WebElement header = table.findElement(By.xpath(".//th[@role='columnheader' and contains(text(), '"+ colName + "')]"))
+		WebElement icon = header.findElement(By.xpath(".//span"))
+		String sortIconText = icon.getText().trim()
+		header.click()
 		WebUI.delay(2)
-
+		ArrayList<String> listTableSort = getValueOfColumnName(object, colName)
 		TestData data = findTestData(excelFile)
-		ArrayList<String> listExpectedSort = new ArrayList()
+		ArrayList<String> listDataFromExcel = new ArrayList<>()
 		int numberOfRow = data.getRowNumbers()
-		for(int i = 1; i <= numberOfRow; i++) {
+		for (int i = 1; i <= numberOfRow; i++) {
 			Object valueObj = data.getObjectValue(colName, i)
 			if (valueObj != null && !valueObj.toString().trim().isEmpty()) {
-				listExpectedSort.add(valueObj.toString().trim())
+				listDataFromExcel.add(valueObj.toString().trim())
 			}
 		}
-
-		KeywordUtil.logInfo("Expected sort: ")
-		for(int i = 0; i<listExpectedSort.size(); i++) {
-			KeywordUtil.logInfo(listExpectedSort.get(i).toString())
+		if (order.equalsIgnoreCase("🔼")) {
+			Collections.sort(listDataFromExcel)
 		}
-
-		ArrayList<String> listActualSort = getValueOfColumnName(object, colName)
-		KeywordUtil.logInfo("Actual Sort: ")
-		for(int i = 1; i<listActualSort.size(); i++) {
-			KeywordUtil.logInfo(listActualSort.get(i).toString())
+		if (listDataFromExcel.size() != listTableSort.size()) {
+			KeywordUtil.markFailedAndStop("Size mismatch: Expected list size " + listDataFromExcel.size() + ", Actual list size " + listTableSort.size())
 		}
-
-		if (order.equalsIgnoreCase("asc")) {
-			Collections.sort(listExpectedSort)
-		} else if (order.equalsIgnoreCase("desc")) {
-			Collections.sort(listExpectedSort, Collections.reverseOrder())
+	
+		// So sánh kết quả sắp xếp
+		if (listDataFromExcel.equals(listTableSort)) {
+			KeywordUtil.logInfo("The column '${colName}' is correctly sorted in ${order} order.")
 		} else {
-			KeywordUtil.markFailedAndStop("Invalid sort order. Use 'asc' or 'desc'.")
-		}
-
-		if (listExpectedSort.size() != listActualSort.size()) {
-			KeywordUtil.markFailedAndStop("Size mismatch: Expected list size " + listExpectedSort.size() + ", Actual list size " + listActualSort.size())
-		}
-
-		if (listExpectedSort.equals(listActualSort)) {
-			KeywordUtil.logInfo("The column '$colName' is correctly sorted in $order order.")
-		} else {
-			KeywordUtil.markFailedAndStop("The column '$colName' is NOT sorted correctly in $order order.")
+			KeywordUtil.markFailedAndStop("The column '${colName}' is NOT sorted correctly in ${order} order.")
 		}
 	}
-
+	
+	
+	@Keyword
+	def checkSortDescending(TestObject object, String excelFile, String colName, String order) {
+		WebElement table = WebUI.findWebElement(object)
+		WebElement header = table.findElement(By.xpath(".//th[@role='columnheader' and contains(text(), '"+ colName + "')]"))
+		WebElement icon = header.findElement(By.xpath(".//span"))
+		String sortIconText = icon.getText().trim()
+		header.click()
+		header.click()
+		WebUI.delay(2)
+		ArrayList<String> listTableSort = getValueOfColumnName(object, colName)
+		TestData data = findTestData(excelFile)
+		ArrayList<String> listDataFromExcel = new ArrayList<>()
+		int numberOfRow = data.getRowNumbers()
+		for (int i = 1; i <= numberOfRow; i++) {
+			Object valueObj = data.getObjectValue(colName, i)
+			if (valueObj != null && !valueObj.toString().trim().isEmpty()) {
+				listDataFromExcel.add(valueObj.toString().trim())
+			}
+		}
+		if (order.equalsIgnoreCase("🔽")) {
+			Collections.sort(listDataFromExcel, Collections.reverseOrder())
+		}
+		if (listDataFromExcel.size() != listTableSort.size()) {
+			KeywordUtil.markFailedAndStop("Size mismatch: Expected list size " + listDataFromExcel.size() + ", Actual list size " + listTableSort.size())
+		}
+	
+		// So sánh kết quả sắp xếp
+		if (listDataFromExcel.equals(listTableSort)) {
+			KeywordUtil.logInfo("The column '${colName}' is correctly sorted in ${order} order.")
+		} else {
+			KeywordUtil.markFailedAndStop("The column '${colName}' is NOT sorted correctly in ${order} order.")
+		}
+	}
+	
+	
+	
+	
 
 	@Keyword
 	def checkFilter(TestObject object, String filter, String colName) {
@@ -157,25 +180,25 @@ public class customKey {
 	def checkPagination(TestObject object, int rowInPage) {
 		WebElement table = WebUI.findWebElement(object)
 		WebUI.selectOptionByValue(findTestObject('Object Repository/Table/select_showEntries'), rowInPage.toString(), false)
-		
-		 List<Map<String, String>> firstPageData = getValueOfRow(object)
-		 int countRow = firstPageData.size()
-		
+
+		List<Map<String, String>> firstPageData = getValueOfRow(object)
+		int countRow = firstPageData.size()
+
 		if(countRow <= rowInPage) {
 			KeywordUtil.logInfo("Show Entries: ${rowInPage}, Show rows: ${countRow}")
 		}
 		else {
 			KeywordUtil.markFailed("Show Entries: ${rowInPage}, Show rows: ${countRow}")
 		}
-		
-		
+
+
 		boolean hasNextPage = true
 		int currentPage = 1
 		while(hasNextPage) {
 			if(WebUI.verifyElementClickable(findTestObject('Object Repository/Table/btn_next'), FailureHandling.OPTIONAL)) {
 				WebUI.click(findTestObject('Object Repository/Table/btn_next'))
 				WebUI.delay(2)
-				
+
 				List<Map<String, String>> newPageData = getValueOfRow(object)
 				if(firstPageData != newPageData) {
 					KeywordUtil.logInfo("Dữ liệu đã thay đổi khi chuyển trang ${currentPage + 1}")
@@ -190,7 +213,7 @@ public class customKey {
 				KeywordUtil.logInfo("Đã đến trang cuối cùng")
 			}
 		}
-		
+
 		while(currentPage > 1) {
 			if(WebUI.verifyElementClickable(findTestObject('Object Repository/Table/btn_prev'), FailureHandling.OPTIONAL)) {
 				WebUI.click(findTestObject('Object Repository/Table/btn_prev'))

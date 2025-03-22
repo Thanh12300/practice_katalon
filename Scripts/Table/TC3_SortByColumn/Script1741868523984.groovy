@@ -12,4 +12,4 @@ TestObject tableObject = findTestObject('Object Repository/Table/tb_name')
 String excelFile = "Data Files/test_data"
 String columnName = "Last Name"
 
-CustomKeywords.'practiceTable.customKey.checkSort'(tableObject, excelFile, columnName, "asc")
+CustomKeywords.'practiceTable.customKey.checkSortDescending'(tableObject, excelFile, columnName, "🔽")
