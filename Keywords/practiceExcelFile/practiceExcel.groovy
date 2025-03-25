@@ -1,24 +1,20 @@
 package practiceExcelFile
 
-import static com.kms.katalon.core.checkpoint.CheckpointFactory.findCheckpoint
-import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
-import static com.kms.katalon.core.testdata.TestDataFactory.findTestData
-import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
-import static com.kms.katalon.core.testobject.ObjectRepository.findWindowsObject
+
+import javax.swing.DefaultRowSorter.Row
+
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import com.kms.katalon.core.annotation.Keyword
-import com.kms.katalon.core.checkpoint.Checkpoint
-import com.kms.katalon.core.cucumber.keyword.CucumberBuiltinKeywords as CucumberKW
-import com.kms.katalon.core.mobile.keyword.MobileBuiltInKeywords as Mobile
-import com.kms.katalon.core.model.FailureHandling
-import com.kms.katalon.core.testcase.TestCase
 import com.kms.katalon.core.testdata.TestData
-import com.kms.katalon.core.testobject.TestObject
-import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
 
-import internal.GlobalVariable
+import groovyjarjarpicocli.CommandLine.Help.TextTable.Cell
+
+
+
+
+
+
 
 public class practiceExcel {
 	//Excel
@@ -50,4 +46,107 @@ public class practiceExcel {
 		println('Count of FirstName values: ' + listName.size())
 		println('Count of Age values: ' + listPassword.size())
 	}
+
+
+	@Keyword
+	def getDataFromExcel() {
+		def getDataFromExcel(String filePath) {
+			List<Map<String, String>> allData = []  // Danh sách chứa tất cả dữ liệu từ file Excel
+			FileInputStream file = new FileInputStream(new File(filePath))
+			Workbook workbook = new XSSFWorkbook(file)
+	
+			for (int sheetIndex = 0; sheetIndex < workbook.getNumberOfSheets(); sheetIndex++) {
+				Sheet sheet = workbook.getSheetAt(sheetIndex)
+				println("\n=== Đọc dữ liệu từ Sheet: " + sheet.getSheetName() + " ===")
+	
+				Map<String, Integer> headerIndex = [:] // Lưu vị trí cột theo tên cột
+				Row headerRow = sheet.getRow(0) // Lấy hàng đầu tiên làm Header
+	
+				if (headerRow == null) {
+					println("Sheet ${sheet.getSheetName()} không có dữ liệu")
+					continue
+				}
+	
+				// 🔹 BƯỚC 1: Lấy vị trí của các cột theo tiêu đề
+				for (Cell cell : headerRow) {
+					headerIndex[cell.toString()] = cell.columnIndex
+				}
+				println("📌 Header: ${headerIndex}")
+	
+				// 🔹 BƯỚC 2: Lặp qua từng hàng và lấy dữ liệu
+				for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+					Row row = sheet.getRow(rowIndex)
+					if (row == null) continue // Bỏ qua hàng trống
+	
+					Map<String, String> rowData = [:] // Lưu dữ liệu của từng dòng
+					headerIndex.each { columnName, columnIndex ->
+						Cell cell = row.getCell(columnIndex)
+						rowData[columnName] = (cell != null) ? cell.toString().trim() : ""
+					}
+					allData.add(rowData) // Thêm dòng dữ liệu vào danh sách
+				}
+			}
+	
+			workbook.close()
+			file.close()
+	
+			return allData // Trả về toàn bộ dữ liệu từ Excel dưới dạng danh sách Map
+		}
+	}
+
+
+	@Keyword
+	def getDataByColumnName(String filePath, String nameCol) {
+		TestData data = findTestData(filePath)
+		ArrayList<String> valueOfCol = new ArrayList()
+		for(int i = 1; i <= data.size; i++){
+			String value = data.getObjectValue(nameCol,i)
+			if(value!=null && !value.trim().isEmpty()) {
+				valueOfCol.add(value)
+			}
+		}
+		return valueOfCol
+	}
+
+	@Keyword
+    def writeInExcel(String filePath, String sheetName, List<List<String>> data) {
+        File file = new File(filePath)
+        Workbook workbook
+        Sheet sheet
+
+        // Kiểm tra file có tồn tại không
+        if (file.exists()) {
+            FileInputStream fis = new FileInputStream(file)
+            workbook = new XSSFWorkbook(fis)
+            sheet = workbook.getSheet(sheetName)
+            if (sheet == null) {
+                sheet = workbook.createSheet(sheetName) // Tạo sheet mới nếu chưa có
+            }
+            fis.close()
+        } else {
+            workbook = new XSSFWorkbook()
+            sheet = workbook.createSheet(sheetName)
+        }
+
+        // Ghi dữ liệu vào sheet
+        int rowNum = sheet.getLastRowNum() + 1 // Bắt đầu từ dòng tiếp theo
+        for (List<String> rowData : data) {
+            Row row = sheet.createRow(rowNum++)
+            int cellNum = 0
+            for (String cellValue : rowData) {
+                Cell cell = row.createCell(cellNum++)
+                cell.setCellValue(cellValue)
+            }
+        }
+
+        // Ghi dữ liệu vào file Excel
+        FileOutputStream fos = new FileOutputStream(file)
+        workbook.write(fos)
+        workbook.close()
+        fos.close()
+
+        println("Ghi dữ liệu vào Excel thành công: ${filePath}")
+    }
+
+	
 }
