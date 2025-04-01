@@ -3,6 +3,8 @@ package practiceExcelFile
 
 import javax.swing.DefaultRowSorter.Row
 
+import org.apache.poi.sl.usermodel.Sheet
+import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import com.kms.katalon.core.annotation.Keyword
@@ -49,7 +51,7 @@ public class practiceExcel {
 
 
 	@Keyword
-	def getDataFromExcel() {
+	
 		def getDataFromExcel(String filePath) {
 			List<Map<String, String>> allData = []  // Danh sách chứa tất cả dữ liệu từ file Excel
 			FileInputStream file = new FileInputStream(new File(filePath))
@@ -92,8 +94,7 @@ public class practiceExcel {
 	
 			return allData // Trả về toàn bộ dữ liệu từ Excel dưới dạng danh sách Map
 		}
-	}
-
+	
 
 	@Keyword
 	def getDataByColumnName(String filePath, String nameCol) {

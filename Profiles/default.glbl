@@ -19,4 +19,9 @@
       <initValue>'https://demoqa.com/automation-practice-form'</initValue>
       <name>demoqaURL</name>
    </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login'</initValue>
+      <name>orangeHRM</name>
+   </GlobalVariableEntity>
 </GlobalVariableEntities>
